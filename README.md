@@ -1,1 +1,2 @@
-# pitara-ecommerce
+# Pitara
+Pitara is a full-featured, user-friendly e-commerce web application built to provide a curated shopping experience for unique and thoughtful gift items. The platform supports diverse categories like Home Décor, Stationery, Artifacts, Personalized Items, and Plushies.
