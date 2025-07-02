@@ -35,3 +35,38 @@ exports.getAllAdmins = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// Update admin by ID
+exports.updateAdmin = async (req, res) => {
+  try {
+    const adminId = req.params.id;
+    const { firstName, lastName, email, role } = req.body;
+
+    const updatedAdmin = await Admin.findByIdAndUpdate(
+      adminId,
+      { firstName, lastName, email, role },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!updatedAdmin) return res.status(404).json({ message: 'Admin not found' });
+
+    res.status(200).json(updatedAdmin);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Delete admin by ID
+exports.deleteAdmin = async (req, res) => {
+  try {
+    const adminId = req.params.id;
+
+    const deleted = await Admin.findByIdAndDelete(adminId);
+
+    if (!deleted) return res.status(404).json({ message: 'Admin not found' });
+
+    res.status(200).json({ message: 'Admin deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

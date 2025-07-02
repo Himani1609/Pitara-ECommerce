@@ -28,9 +28,28 @@ exports.placeOrder = async (req, res) => {
 exports.getUserOrders = async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.params.userId })
-                              .populate('addressId')
-                              .sort({ createdAt: -1 });
+      .populate('addressId')
+      .sort({ createdAt: -1 });
     res.status(200).json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Update order status (admin only)
+exports.updateOrderStatus = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+
+    const { orderStatus, paymentStatus } = req.body;
+
+    if (orderStatus) order.orderStatus = orderStatus;
+    if (paymentStatus) order.paymentStatus = paymentStatus;
+
+    const updated = await order.save();
+    res.status(200).json(updated);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
