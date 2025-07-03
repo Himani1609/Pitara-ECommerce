@@ -1,0 +1,23 @@
+.cart-page {
+  padding: 2rem;
+}
+
+.cart-items {
+  list-style: none;
+  padding: 0;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.qty-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
