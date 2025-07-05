@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/pages/Auth.css';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 
-const Login = () => {
-  const [form, setForm] = useState({ email: '', password: '' });
+const Register = () => {
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: ''
+  });
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();
-  const { login } = useAuth(); 
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,30 +18,26 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/users/login', form);
-      const user = res.data;
-      login(user); 
-      setMessage('Login successful!');
-      navigate('/');
+      await axios.post('http://localhost:5000/api/users/register', form);
+      setMessage('Registration successful. Please log in.');
     } catch (err) {
-      setMessage(err.response?.data?.message || 'Login failed');
+      setMessage(err.response?.data?.message || 'Registration failed');
     }
   };
 
   return (
     <div className="auth-container">
-      <h2>Login</h2>
+      <h2>Create an Account</h2>
       <form onSubmit={handleSubmit} className="auth-form">
+        <input type="text" name="firstName" placeholder="First Name" onChange={handleChange} required />
+        <input type="text" name="lastName" placeholder="Last Name" onChange={handleChange} />
         <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
         <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
         {message && <p className="form-msg">{message}</p>}
       </form>
-      <p className="auth-footer">
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
     </div>
   );
 };
 
-export default Login;
+export default Register;
