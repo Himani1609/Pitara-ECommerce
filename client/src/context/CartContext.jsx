@@ -1,21 +1,20 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from './AuthContext'; 
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    
-    if (user?.userId) {
-      fetchCart(user.userId);
-    }
-  }, [user]); 
+  localStorage.setItem('pitara_cart', JSON.stringify(cartItems));
+  }, [cartItems]);
+
 
   const fetchCart = async (userId) => {
+    if (!userId) return;
     try {
       const res = await axios.get(`http://localhost:5000/api/cart/${userId}`);
       setCartItems(res.data?.items || []);
@@ -25,39 +24,59 @@ export const CartProvider = ({ children }) => {
   };
 
   const addToCart = async (product, quantity) => {
-    if (!user?.userId) {
-      alert("Please login to add item in cart");
+    const userId = user?.user?._id;
+    if (!userId) {
+      alert('Please login to add item in cart');
       return;
     }
     try {
-      await axios.post(`http://localhost:5000/api/cart/add`, {
-        userId: user.userId,
+      await axios.post('http://localhost:5000/api/cart/add', {
+        userId,
         productId: product._id,
         quantity,
       });
-      fetchCart(user.userId);
+      fetchCart(userId);
     } catch (err) {
       console.error('Add to cart failed:', err);
     }
   };
 
   const updateQuantity = async (productId, quantity) => {
-    if (!user?.userId) return;
-    await axios.put(`http://localhost:5000/api/cart/update`, {
-      userId: user.userId,
-      productId,
-      quantity,
-    });
-    fetchCart(user.userId);
+    const userId = user?.user?._id;
+    if (!userId) return;
+    try {
+      await axios.put('http://localhost:5000/api/cart/update', {
+        userId,
+        productId,
+        quantity,
+      });
+      fetchCart(userId);
+    } catch (err) {
+      console.error('Update quantity failed:', err);
+    }
   };
 
   const removeFromCart = async (productId) => {
-    if (!user?.userId) return;
-    await axios.delete(`http://localhost:5000/api/cart/remove`, {
-      data: { userId: user.userId, productId },
-    });
-    fetchCart(user.userId);
+    const userId = user?.user?._id;
+    if (!userId) return;
+    try {
+      await axios.delete('http://localhost:5000/api/cart/remove', {
+        data: { userId, productId },
+      });
+      fetchCart(userId);
+    } catch (err) {
+      console.error('Remove from cart failed:', err);
+    }
   };
+
+  useEffect(() => {
+    const userId = user?.user?._id;
+    if (userId) {
+      fetchCart(userId);
+    } else {
+      setCartItems([]); 
+    }
+  }, [user]);
 
   return (
     <CartContext.Provider value={{ cartItems, addToCart, updateQuantity, removeFromCart }}>

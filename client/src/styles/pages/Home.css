@@ -66,8 +66,27 @@
   object-fit: cover;
 }
 
-/* Featured Placeholder */
-.featured {
-  padding: 40px 20px;
+
+
+.featured-section {
+  padding: 2rem;
+  background: #fafafa;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.product-card {
+  background: #fff;
+  border: 1px solid #eee;
+  padding: 1rem;
   text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
 }

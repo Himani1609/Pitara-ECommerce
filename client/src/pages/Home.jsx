@@ -1,6 +1,12 @@
 import React from 'react';
 import '../styles/pages/Home.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import productImages from '../productImages';
+
 import category1 from '../assets/images/category/homedecor.jpg';
 import category2 from '../assets/images/category/stationery.jpg';
 import category3 from '../assets/images/category/artifacts.jpg';
@@ -14,6 +20,20 @@ const categories = [
 ];
 
 const Home = () => {
+  const [featured, setFeatured] = useState([]);
+
+  useEffect(() => {
+    const fetchFeatured = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/products/featured');
+        setFeatured(res.data);
+      } catch (err) {
+        console.error('Failed to load featured products', err);
+      }
+    };
+    fetchFeatured();
+  }, []);
+
   return (
     <div className="home">
       {/* Hero Section */}
@@ -41,12 +61,28 @@ const Home = () => {
 
 
       {/* Featured Products Placeholder */}
-      <section className="featured">
-        <h2>Featured Products</h2>
-        <div className="featured-grid">
-          <p>Coming soon...</p>
-        </div>
-      </section>
+      <section className="featured-section">
+      <h2>Featured Products</h2>
+      <div className="product-grid">
+        {featured.map(product => (
+        <div key={product._id} className="product-card">
+            <Carousel showThumbs={false} showStatus={false} infiniteLoop>
+              {product.images.map((imgName, idx) => (
+                <div key={idx}>
+                  <img
+                    src={productImages[imgName] || '/placeholder.jpg'}
+                    alt={`${product.name} ${idx + 1}`}
+                  />
+                </div>
+              ))}
+            </Carousel>
+            <h4>{product.name}</h4>
+            <p>${product.price}</p>
+          </div>
+        ))}
+
+      </div>
+    </section>
     </div>
   );
 };

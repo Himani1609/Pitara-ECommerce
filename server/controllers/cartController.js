@@ -22,7 +22,8 @@ exports.addToCart = async (req, res) => {
   }
 
   await cart.save();
-  res.status(200).json(cart);
+  const populatedCart = await Cart.findOne({ userId }).populate('items.productId'); 
+  res.status(200).json(populatedCart);
 };
 
 exports.updateQuantity = async (req, res) => {
@@ -35,8 +36,10 @@ exports.updateQuantity = async (req, res) => {
   if (item) item.quantity = quantity;
 
   await cart.save();
-  res.status(200).json(cart);
+  const populatedCart = await Cart.findOne({ userId }).populate('items.productId'); 
+  res.status(200).json(populatedCart);
 };
+
 
 exports.removeFromCart = async (req, res) => {
   const { userId, productId } = req.body;
@@ -45,7 +48,8 @@ exports.removeFromCart = async (req, res) => {
     { userId },
     { $pull: { items: { productId } } },
     { new: true }
-  );
+  ).populate('items.productId'); 
 
   res.status(200).json(cart);
 };
+
