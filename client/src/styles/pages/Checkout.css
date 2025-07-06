@@ -1,124 +1,98 @@
+
 .checkout-page {
-  max-width: 960px;
-  margin: 2rem auto;
-  padding: 2rem 3rem;
-  background-color: #fff;
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-radius: 12px;
   font-family: 'Segoe UI', sans-serif;
-  color: #222;
 }
 
 .checkout-page h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 28px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
 }
 
-.checkout-page h4 {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
+.address-section, .cart-summary {
+  margin-bottom: 40px;
+}
+
+.address-section h4, .cart-summary h4 {
+  font-size: 20px;
+  margin-bottom: 15px;
   color: #444;
 }
 
-/* Address Form */
-.address-form {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-}
-
-.address-form input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 0.95rem;
-}
-
-.address-form .full-width {
-  grid-column: span 3;
-}
-
-.address-form button {
-  padding: 10px 16px;
-  border: none;
-  background-color: #2a1e5c;
-  color: white;
-  font-weight: 500;
-  border-radius: 6px;
-  cursor: pointer;
-  grid-column: span 1;
-}
-
-.address-form button:hover {
-  background-color: #1f1642;
-}
-
-/* Address Selection */
 .address-list {
-  margin-bottom: 2rem;
-}
-
-.address-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 1rem;
   border: 1px solid #ddd;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  background-color: #fafafa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
 }
 
-.address-card input[type="radio"] {
-  margin-top: 5px;
-}
-
-.address-details {
-  line-height: 1.4;
-  font-size: 0.95rem;
-}
-
-/* Cart Summary */
-.cart-summary {
-  border-top: 1px solid #ddd;
-  margin-top: 2rem;
-  padding-top: 1rem;
-}
-
-.cart-summary p {
-  margin: 6px 0;
-  font-size: 0.95rem;
-}
-
-.cart-summary .summary-line {
+.address-list label {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
 }
 
-.cart-summary .total {
-  font-weight: bold;
-  font-size: 1.05rem;
+.address-buttons {
+  display: flex;
+  gap: 10px;
   margin-top: 10px;
 }
 
-/* Buttons */
-.btn-add-address,
-.btn-place-order {
-  margin-top: 1rem;
-  background-color: teal;
-  color: white;
-  padding: 10px 20px;
-  border: none;
+.address-buttons button {
+  padding: 5px 10px;
+  font-size: 14px;
   cursor: pointer;
+  border: none;
   border-radius: 6px;
 }
 
-.btn-add-address:hover,
-.btn-place-order:hover {
-    background-color: #178a85;
-
+.address-buttons button.edit {
+  background-color: #f0f0f0;
 }
 
+.address-buttons button.delete {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.cart-summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+}
+
+.cart-summary-item.total {
+  font-weight: bold;
+  font-size: 18px;
+  border-top: 1px solid #ddd;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+
+.add-address-btn, .place-order-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.add-address-btn {
+  background-color: #ddd;
+  color: #333;
+}
+
+.place-order-btn {
+  background-color: teal;
+  color: white;
+}

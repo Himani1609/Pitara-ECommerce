@@ -78,8 +78,21 @@ export const CartProvider = ({ children }) => {
     }
   }, [user]);
 
+  const clearCart = async () => {
+    try {
+      setCartItems([]);
+      localStorage.removeItem('cart');
+      
+      if (user?.user?._id) {
+        await axios.delete(`http://localhost:5000/api/cart/clear/${user.user._id}`);
+      }
+    } catch (err) {
+      console.error('Failed to clear server cart:', err);
+    }
+  };
+
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, updateQuantity, removeFromCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, updateQuantity, removeFromCart,  clearCart }}>
       {children}
     </CartContext.Provider>
   );

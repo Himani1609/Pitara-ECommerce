@@ -7,105 +7,108 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/pages/Checkout.css';
 
 const Checkout = () => {
-  const { cartItems } = useCart();
+  
+  const { cartItems, clearCart } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [addresses, setAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(null);
+
+  const fetchAddresses = () => {
+    axios.get(`http://localhost:5000/api/addresses/${user.user._id}`)
+      .then(res => setAddresses(res.data))
+      .catch(err => console.error('Failed to load addresses', err));
+  };
 
   useEffect(() => {
     if (user?.user?._id) {
-      axios.get(`http://localhost:5000/api/addresses/${user.user._id}`)
-        .then(res => setAddresses(res.data))
-        .catch(err => console.error('Failed to load addresses', err));
+      fetchAddresses();
     }
   }, [user]);
 
   const handlePlaceOrder = () => {
-    if (!selectedAddressId) {
-      alert('Please select a shipping address.');
-      return;
-    }
+  if (!selectedAddressId) return alert('Please select a shipping address.');
 
-    axios.post('http://localhost:5000/api/orders', {
-      userId: user.user._id,
-      addressId: selectedAddressId,
-      items: cartItems,
-    }).then(res => {
-      alert('Order placed!');
-      navigate('/order-confirmation', { state: { order: res.data } });
-    }).catch(err => {
+  const subtotal = cartItems.reduce((total, item) => total + item.quantity * (item.productId?.price || 0), 0);
+  const shipping = 50;
+  const tax = subtotal * 0.13;
+  const totalAmount = subtotal + shipping + tax;
+
+  axios.post('http://localhost:5000/api/orders', {
+    userId: user.user._id,
+    addressId: selectedAddressId,
+    totalAmount,
+    items: cartItems,
+  }).then(async res => {
+    await axios.delete(`http://localhost:5000/api/cart/clear/${user.user._id}`);
+    clearCart(); 
+    navigate('/order-confirmation', { state: { order: res.data } });
+  }).catch(err => {
       console.error('Order placement failed:', err);
       alert('Failed to place order');
     });
   };
 
+  const handleDelete = async (id) => {
+    await axios.delete(`http://localhost:5000/api/addresses/${id}`);
+    fetchAddresses();
+  };
+
+  const subtotal = cartItems.reduce((total, item) => total + item.quantity * (item.productId?.price || 0), 0);
+  const shipping = 50;
+  const tax = subtotal * 0.13;
+  const total = (subtotal + shipping + tax).toFixed(2);
+
   return (
     <div className="checkout-page">
       <h2>Checkout</h2>
 
-      <h4>Select Shipping Address</h4>
-      <div className="address-list">
+      <div className="address-section">
+        <h4>Select Shipping Address</h4>
         {addresses.map(addr => (
-          <label key={addr._id} className="address-card">
-            <input
-              type="radio"
-              name="address"
-              value={addr._id}
-              checked={selectedAddressId === addr._id}
-              onChange={() => setSelectedAddressId(addr._id)}
-            />
-            <div className="address-details">
-              <strong>{addr.fullName}</strong><br />
-              {addr.street}, {addr.city}, {addr.state}<br />
-              {addr.country}, {addr.zip}<br />
-              {addr.phone}
+          <div key={addr._id} className="address-list">
+            <label>
+              <input
+                type="radio"
+                name="address"
+                value={addr._id}
+                checked={selectedAddressId === addr._id}
+                onChange={() => setSelectedAddressId(addr._id)}
+              />
+              {addr.fullName}, {addr.street}, {addr.city}
+            </label>
+            <div className="address-buttons">
+              <button className="edit" onClick={() => { setShowForm(true); setEditingAddress(addr); }}>Edit</button>
+              <button className="delete" onClick={() => handleDelete(addr._id)}>Delete</button>
             </div>
-          </label>
+          </div>
         ))}
-      </div>
 
-      <button className="btn-add-address" onClick={() => setShowForm(true)}>+ Add New Address</button>
-      {showForm && (
-        <div className="address-form">
+        <button className="add-address-btn" onClick={() => { setShowForm(true); setEditingAddress(null); }}>+ Add New Address</button>
+        {showForm && (
           <AddressForm
             userId={user.user._id}
+            existing={editingAddress}
             onSuccess={() => {
               setShowForm(false);
-              axios.get(`http://localhost:5000/api/addresses/${user.user._id}`)
-                .then(res => setAddresses(res.data));
+              setEditingAddress(null);
+              fetchAddresses();
             }}
           />
-        </div>
-      )}
+        )}
+      </div>
 
-      <h4>Cart Summary</h4>
-    <div className="cart-summary">
-    <div className="summary-line">
-        <span>Total MRP</span>
-        <span>${cartItems.reduce((total, item) => total + item.quantity * item.productId.price, 0).toFixed(2)}</span>
-    </div>
-    <div className="summary-line">
-        <span>Taxes (13%)</span>
-        <span>${(cartItems.reduce((total, item) => total + item.quantity * item.productId.price, 0) * 0.13).toFixed(2)}</span>
-    </div>
-    <div className="summary-line">
-        <span>Shipping Fee</span>
-        <span>$7.00</span>
-    </div>
-    <div className="summary-line total">
-        <span>Total Amount</span>
-        <span>
-        ${(
-            cartItems.reduce((total, item) => total + item.quantity * item.productId.price, 0) * 1.13 + 7
-        ).toFixed(2)}
-        </span>
-    </div>
-    </div>
+      <div className="cart-summary">
+        <h4>Cart Summary</h4>
+        <div className="cart-summary-item"><span>Total MRP:</span> <span>${subtotal.toFixed(2)}</span></div>
+        <div className="cart-summary-item"><span>Shipping:</span> <span>${shipping.toFixed(2)}</span></div>
+        <div className="cart-summary-item"><span>Taxes (13%):</span> <span>${tax.toFixed(2)}</span></div>
+        <div className="cart-summary-item total"><span>Total:</span> <span>${total}</span></div>
+      </div>
 
-
-      <button className="btn-place-order" onClick={handlePlaceOrder}>Place Order</button>
+      <button className="place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
     </div>
   );
 };

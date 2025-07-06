@@ -22,10 +22,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart />}/>
-        <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/addresses" element={<AddressForm />} />
-
+        <Route path="/order-confirmation" element={<OrderConfirmation />} />
       </Routes>
       </>
   );

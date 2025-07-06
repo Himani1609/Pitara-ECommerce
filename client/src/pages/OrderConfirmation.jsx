@@ -1,51 +1,53 @@
-// src/pages/OrderConfirmation.jsx
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import '../styles/pages/OrderConfirmation.css';
 
 const OrderConfirmation = () => {
-  const location = useLocation();
-  const { order } = location.state || {};
+  const { state } = useLocation();
+  const order = state?.order;
 
   if (!order) {
     return (
       <div className="order-confirmation">
-        <h2>Order Not Found</h2>
-        <Link to="/shop" className="btn-primary">Back to Shop</Link>
+        <h2>No order found.</h2>
+        <Link to="/shop" className="btn-link">Continue Shopping</Link>
       </div>
     );
   }
 
+  const address = order.addressId;
+  const items = order.items || [];
+
   return (
     <div className="order-confirmation">
-      <h2>Thank you for your order, {order.address.fullName}!</h2>
-      <p>Your order has been placed successfully.</p>
+      <h2>Thank you for your order!</h2>
+      <p>Your order ID: <strong>{order._id}</strong></p>
 
-      <div className="summary-section">
+      <div className="order-section">
         <h3>Shipping Address</h3>
-        <p>
-          {order.address.fullName}<br />
-          {order.address.street}<br />
-          {order.address.city}, {order.address.state} {order.address.zip}<br />
-          {order.address.country}<br />
-          Phone: {order.address.phone}
-        </p>
+        <p>{address?.fullName}</p>
+        <p>{address?.street}, {address?.city}, {address?.state}</p>
+        <p>{address?.country} - {address?.zip}</p>
+        <p>Phone: {address?.phone}</p>
+      </div>
 
-        <h3>Order Summary</h3>
+      <div className="order-section">
+        <h3>Order Items</h3>
         <ul>
-          {order.items.map((item, idx) => (
+          {items.map((item, idx) => (
             <li key={idx}>
-              {item.product.name} × {item.quantity} — ${item.product.price * item.quantity}
+              {item.productId?.name} x {item.quantity} — ${item.productId?.price}
             </li>
           ))}
         </ul>
-
-        <h4>Total: ${order.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toFixed(2)}</h4>
       </div>
 
-      <div className="confirmation-actions">
-        <Link to="/shop" className="btn-primary">Continue Shopping</Link>
-        <Link to="/my-orders" className="btn-secondary">View My Orders</Link>
+      <div className="order-summary">
+        <p><strong>Total Paid:</strong> ${order.totalAmount?.toFixed(2)}</p>
+      </div>
+
+      <div className="order-actions">
+        <Link to="/shop" className="btn-link">Continue Shopping</Link>
       </div>
     </div>
   );
