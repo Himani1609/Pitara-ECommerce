@@ -1,0 +1,42 @@
+.edit-category-page {
+  padding: 30px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.edit-category-page h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.edit-category-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.edit-category-form input[type="text"],
+.edit-category-form input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.edit-category-form button {
+  background-color: #0277bd;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-category-form button:hover {
+  background-color: #01579b;
+}
+
+.preview-img {
+  max-width: 200px;
+  height: auto;
+  border-radius: 4px;
+}

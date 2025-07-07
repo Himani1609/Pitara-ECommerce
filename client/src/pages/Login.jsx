@@ -8,7 +8,7 @@ const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const { login } = useAuth(); 
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -18,10 +18,17 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post('http://localhost:5000/api/users/login', form);
-      const user = res.data;
-      login(user); 
+      const userData = res.data;
+      login(userData);
+
       setMessage('Login successful!');
-      navigate('/');
+
+      // 🔁 Redirect based on role
+      if (userData.isAdmin) {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       setMessage(err.response?.data?.message || 'Login failed');
     }

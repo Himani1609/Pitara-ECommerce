@@ -1,0 +1,67 @@
+/* client/src/styles/pages/AdminDashboard.css */
+.admin-dashboard {
+  font-family: sans-serif;
+  min-height: 100vh;
+  background: #fafafa;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.logo {
+ font-size: 1.8rem;
+  font-weight: 700;
+  color: #2B267A !important;
+  letter-spacing: 1px;
+}
+
+.admin-nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: #333;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-btn.active {
+  border-bottom: 2px solid #000;
+  font-weight: bold;
+}
+
+.admin-avatar {
+  font-size: 1.5rem;
+}
+
+.admin-content {
+  padding: 2rem;
+}
+
+.admin-logout-btn {
+  background-color: #fff;
+  border: 1px solid #f39c12;
+  color: #f39c12;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-weight: 500;
+}
+
+.admin-logout-btn:hover {
+  background-color: #f39c12;
+  color: white;
+}
