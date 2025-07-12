@@ -4,6 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import AdminProducts from './AdminProducts';
 import AdminCategories from './AdminCategories';
+import AdminUsers from './AdminUsers';
+import AdminAdmins from './AdminAdmins';
 
 
 const AdminDashboard = () => {
@@ -12,13 +14,13 @@ const AdminDashboard = () => {
   const renderContent = () => {
   switch (activeTab) {
     case 'Admins':
-      return <div>[Admins List]</div>;
+      return <AdminAdmins />;
     case 'Products':
       return <AdminProducts />;
     case 'Categories':
       return <AdminCategories />;
     case 'Users':
-      return <div>[Users List]</div>;
+      return <AdminUsers />;
     default:
       return null;
   }

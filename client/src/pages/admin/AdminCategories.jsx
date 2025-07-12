@@ -3,6 +3,18 @@ import axios from 'axios';
 import '../../styles/pages/AdminCategories.css';
 import { useNavigate } from 'react-router-dom';
 
+import category1 from '../../assets/images/category/homedecor.jpg';
+import category2 from '../../assets/images/category/stationery.jpg';
+import category3 from '../../assets/images/category/artifacts.jpg';
+import category4 from '../../assets/images/category/plushies.jpg';
+
+const categoryImages = [
+  { name: 'Home Décor', image: category1 },
+  { name: 'Stationery', image: category2 },
+  { name: 'Artifacts', image: category3 },
+  { name: 'Plushies', image: category4 },
+];
+
 const AdminCategories = () => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
@@ -30,6 +42,16 @@ const AdminCategories = () => {
     fetchCategories();
   }, []);
 
+  const getCategoryImage = (cat) => {
+    const localMatch = categoryImages.find((item) => item.name === cat.name)?.image;
+    if (!localMatch && cat.image && !cat.image.startsWith('http')) {
+      return `/uploads/${cat.image}`;
+    }
+
+    return localMatch || '/placeholder.jpg';
+  };
+
+
   return (
     <div className="admin-categories">
       <div className="top-bar">
@@ -52,12 +74,11 @@ const AdminCategories = () => {
           {categories.map((cat, idx) => (
             <tr key={cat._id}>
               <td>{idx + 1}</td>
-              <td>
-                <img
-                  src={cat.image ? `/uploads/${cat.image}` : '/placeholder.jpg'}
-                  alt={cat.name}
-                  className="category-thumb"
-                />
+              <td><img
+                src={getCategoryImage(cat)}
+                alt={cat.name}
+                className="category-thumb"
+              />
               </td>
               <td>{cat.name}</td>
               <td>{cat.description}</td>

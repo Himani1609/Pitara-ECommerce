@@ -1,42 +1,64 @@
-.edit-category-page {
-  padding: 30px;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.edit-category-page h2 {
-  text-align: center;
-  margin-bottom: 20px;
+.edit-category-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
 }
 
 .edit-category-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  max-width: 600px;
+  width: 100%;
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.edit-category-form input[type="text"],
-.edit-category-form input[type="file"] {
-  padding: 10px;
+.edit-category-form h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 24px;
+}
+
+.edit-category-form form input,
+.edit-category-form form textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.6rem;
   border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+.edit-category-form form input[type="file"] {
+  padding: 0.3rem;
+  border: none;
+  font-size: 14px;
+}
+
+.preview-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
   border-radius: 4px;
 }
 
 .edit-category-form button {
-  background-color: #0277bd;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
   color: white;
-  padding: 10px;
+  font-size: 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .edit-category-form button:hover {
-  background-color: #01579b;
-}
-
-.preview-img {
-  max-width: 200px;
-  height: auto;
-  border-radius: 4px;
+  background-color: #0056b3;
 }

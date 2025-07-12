@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Home from './pages/Home';
+import Navbar from './components/Navbar'; 
 import Shop from './pages/Shop';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -17,9 +19,20 @@ import AdminCategories from './pages/admin/AdminCategories';
 import AdminAddCategory from './pages/admin/AdminAddCategory';
 import AdminEditCategory from './pages/admin/AdminEditCategory';
 
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminEditUser from './pages/admin/AdminEditUser';
+
+import AdminAdmins from './pages/admin/AdminAdmins';
+import AdminAddAdmin from './pages/admin/AdminAddAdmin';
+import AdminEditAdmin from './pages/admin/AdminEditAdmin';
+
 function App() {
+
+  const location = useLocation();
+  const hideNavbar = location.pathname.startsWith('/admin');
   return (
     <>
+     {!hideNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
@@ -38,6 +51,14 @@ function App() {
         <Route path="/admin/categories" element={<AdminCategories />} />
         <Route path="/admin/categories/add" element={<AdminAddCategory />} />
         <Route path="/admin/categories/edit/:id" element={<AdminEditCategory />} />
+
+        <Route path="/admin/users" element={<AdminUsers />} />
+        <Route path="/admin/users/edit/:id" element={<AdminEditUser />} />
+
+        <Route path="/admin/admins" element={<AdminAdmins />} />
+        <Route path="/admin/admins/add" element={<AdminAddAdmin />} />
+        <Route path="/admin/admins/edit/:id" element={<AdminEditAdmin />} />
+
       </Routes>
     </>
   );

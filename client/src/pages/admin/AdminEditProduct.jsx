@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/pages/AdminEditProduct.css';
+import productImages from '../../productImages';
+
 
 const AdminEditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
   const [form, setForm] = useState({
     name: '',
     description: '',
@@ -15,48 +16,91 @@ const AdminEditProduct = () => {
     images: []
   });
 
+  const [previewImages, setPreviewImages] = useState([]);
+  const [newImages, setNewImages] = useState([]);
+
   useEffect(() => {
     axios.get(`http://localhost:5000/api/products/${id}`)
       .then(res => {
-        setProduct(res.data);
+        const prod = res.data;
         setForm({
-          name: res.data.name,
-          description: res.data.description,
-          price: res.data.price,
-          stock: res.data.stock,
-          images: res.data.images
+          name: prod.name,
+          description: prod.description,
+          price: prod.price,
+          stock: prod.stock,
+          images: prod.images
         });
-      }).catch(err => console.error('Fetch error:', err));
+        setPreviewImages(prod.images.map(img => 
+          productImages[img] || `http://localhost:5000/uploads/${img}`
+        ));
+      })
+      .catch(err => console.error('Fetch error:', err));
   }, [id]);
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    axios.put(`http://localhost:5000/api/products/${id}`, form)
-      .then(() => {
-        alert('Product updated');
-        navigate('/admin/dashboard');
-      }).catch(err => {
-        alert('Update failed');
-        console.error(err);
-      });
-  };
+const handleImageChange = (e) => {
+  const files = Array.from(e.target.files);
 
-  if (!product) return <p>Loading...</p>;
+  setNewImages(prev => [...prev, ...files]);
+
+  const newPreviews = files.map(file => URL.createObjectURL(file));
+  setPreviewImages(prev => [...prev, ...newPreviews]);
+};
+
+
+
+ const handleSubmit = async e => {
+  e.preventDefault();
+  const data = new FormData();
+
+  data.append('name', form.name);
+  data.append('description', form.description);
+  data.append('price', form.price);
+  data.append('stock', form.stock);
+
+  newImages.forEach(file => {
+    data.append('images', file); 
+  });
+
+  try {
+    await axios.put(`http://localhost:5000/api/products/${id}`, data, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    alert('Product updated');
+    navigate('/admin/products');
+  } catch (err) {
+    alert('Update failed');
+    console.error(err);
+  }
+};
+
+
 
   return (
-    <div className="edit-product-page">
-      <h2>Edit Product</h2>
-      <form onSubmit={handleSubmit} className="edit-product-form">
-        <input name="name" value={form.name} onChange={handleChange} placeholder="Name" required />
-        <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" required />
-        <input type="number" name="price" value={form.price} onChange={handleChange} placeholder="Price" required />
-        <input type="number" name="stock" value={form.stock} onChange={handleChange} placeholder="Stock" required />
-        <button type="submit">Save Changes</button>
-      </form>
+    <div className="edit-product-wrapper">
+      <div className="edit-product-page">
+        <h2>Edit Product</h2>
+        <form onSubmit={handleSubmit} className="edit-product-form">
+          <input name="name" value={form.name} onChange={handleChange} placeholder="Name" required />
+          <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" required />
+          <input type="number" name="price" value={form.price} onChange={handleChange} placeholder="Price" required />
+          <input type="number" name="stock" value={form.stock} onChange={handleChange} placeholder="Stock" required />
+
+          <label>Upload New Images (will replace existing ones)</label>
+          <input type="file" name="images" multiple accept="image/*" onChange={handleImageChange} />
+
+          <div className="preview-gallery">
+            {previewImages.map((img, idx) => (
+              <img key={idx} src={img} alt={`Preview ${idx + 1}`} className="preview-img" />
+            ))}
+          </div>
+
+          <button type="submit">Save Changes</button>
+        </form>
+      </div>
     </div>
   );
 };

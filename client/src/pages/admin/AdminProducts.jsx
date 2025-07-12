@@ -62,21 +62,24 @@ const AdminProducts = () => {
               <td>{idx + 1}</td>
               <td>
                 <div className="carousel-container">
-                  <Carousel
-                    showThumbs={false}
-                    showStatus={false}
-                    infiniteLoop
-                    showIndicators={prod.images.length > 1}
-                  >
-                    {prod.images.map((imgName, idx) => (
-                      <div key={idx}>
-                        <img
-                          src={productImages[imgName] || '/placeholder.jpg'}
-                          alt={`${prod.name} ${idx + 1}`}
-                          className="product-image"
-                        />
-                      </div>
-                    ))}
+                  <Carousel showThumbs={false} showStatus={false} infiniteLoop showIndicators={prod.images.length > 1} >
+                    {(prod.images || []).map((imgName, idx) => {
+                      const isPredefined = productImages[imgName];
+                      const imageSrc = isPredefined
+                        ? productImages[imgName]
+                        : `http://localhost:5000/uploads/${imgName}`;
+
+                      return (
+                        <div key={idx}>
+                          <img
+                            src={imageSrc}
+                            alt={`${prod.name} ${idx + 1}`}
+                            className="product-image"
+                            onError={(e) => { e.target.src = '/placeholder.jpg'; }}
+                          />
+                        </div>
+                      );
+                    })}
                   </Carousel>
                 </div>
               </td>

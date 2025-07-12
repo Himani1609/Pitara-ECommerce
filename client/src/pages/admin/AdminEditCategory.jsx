@@ -36,13 +36,14 @@ const AdminEditCategory = () => {
 
     try {
       await axios.put(`http://localhost:5000/api/categories/${id}`, data);
-      navigate('/admin/dashboard');
+      navigate('/admin/categories');
     } catch (err) {
       console.error('Update failed:', err);
     }
   };
 
   return (
+    <div className='edit-category-wrapper'>
     <div className="edit-category-form">
       <h2>Edit Category</h2>
       <form onSubmit={handleSubmit}>
@@ -52,6 +53,7 @@ const AdminEditCategory = () => {
         {preview && <img src={preview} alt="Preview" className="preview-image" />}
         <button type="submit">Update Category</button>
       </form>
+    </div>
     </div>
   );
 };

@@ -2,7 +2,25 @@ const Product = require('../models/Product');
 
 exports.createProduct = async (req, res) => {
   try {
-    const product = new Product(req.body);
+    const { name, description, price, stock, categoryId, isFeatured } = req.body;
+    let images = [];
+
+    if (req.files && req.files.length > 0) {
+      images = req.files.map(file => file.filename); 
+    } else if (req.body.images) {
+      images = Array.isArray(req.body.images) ? req.body.images : [req.body.images];
+    }
+
+    const product = new Product({
+      name,
+      description,
+      price,
+      stock,
+      categoryId,
+      isFeatured,
+      images,
+    });
+
     await product.save();
     res.status(201).json(product);
   } catch (err) {
@@ -19,14 +37,40 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+
 exports.updateProduct = async (req, res) => {
   try {
-    const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    console.log('Received files:', req.files);
+    console.log('Received body:', req.body);
+
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ message: 'Product not found' });
+
+    let updatedImages = product.images;
+
+    // If new files uploaded, replace existing images
+    if (req.files && req.files.length > 0) {
+      updatedImages = req.files.map(file => file.filename);
+    }
+
+    const updateFields = {
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      stock: req.body.stock,
+      images: updatedImages,
+    };
+
+    const updated = await Product.findByIdAndUpdate(req.params.id, updateFields, { new: true });
     res.status(200).json(updated);
+    
   } catch (err) {
+    console.error('Update error:', err);
     res.status(500).json({ error: err.message });
   }
 };
+
+
 
 exports.deleteProduct = async (req, res) => {
   try {

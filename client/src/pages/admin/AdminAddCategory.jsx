@@ -28,13 +28,16 @@ const AdminAddCategory = () => {
 
     try {
       await axios.post('http://localhost:5000/api/categories', data);
-      navigate('/admin/dashboard');
+      alert('Category added!');
+      navigate('/admin/categories');
     } catch (err) {
       console.error('Add category failed:', err);
+      alert('Failed to add category');
     }
   };
 
   return (
+    <div className="add-category-wrapper">
     <div className="add-category-form">
       <h2>Add Category</h2>
       <form onSubmit={handleSubmit}>
@@ -44,6 +47,7 @@ const AdminAddCategory = () => {
         {preview && <img src={preview} alt="Preview" className="preview-image" />}
         <button type="submit">Add Category</button>
       </form>
+    </div>
     </div>
   );
 };
