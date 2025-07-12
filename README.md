@@ -44,23 +44,23 @@
 
 ### 1. Clone the Repo
 
-git clone https://github.com/your-username/pitara-ecommerce.git
+git clone https://github.com/your-username/pitara-ecommerce.git  
 cd Pitara-ECommerce
 
 ### 2. Create .env in the server/ folder with MongoDB URI and PORT
-PORT=5000
+PORT=5000  
 MONGODB_URI=mongodb+srv://<your-cluster>
 
 ### 3. Set Up the Backend
 
-cd server
-npm install
+cd server  
+npm install  
 npm run dev
 
 ### 4. Set Up the Frontend
 
-cd client
-npm install
+cd client  
+npm install  
 npm run dev
 
 
