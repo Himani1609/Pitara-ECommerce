@@ -40,29 +40,6 @@
 
 ---
 
-## Project Structure
-
-Pitara-ECommerce/
-│
-├── client/                     # React frontend
-│   ├── pages/                  # All page components (User + Admin)
-│   ├── components/             # Reusable UI components
-│   ├── styles/                 # CSS modules or global styles
-│   ├── assets/                 # Static assets (images/icons)
-│   └── main.jsx                # App entry point
-│
-├── server/                     # Node.js + Express backend
-│   ├── models/                 # Mongoose schemas for User, Product, Category, Admin, etc.
-│   ├── routes/                 # REST API routes for products, users, auth, etc.
-│   ├── controllers/            # Request logic for each route
-│   ├── middleware/             # Middleware (e.g., image upload, auth)
-│   ├── uploads/                # Uploaded product/category images
-│   └── server.js               # Entry point for Express server
-│
-└── .env                        # Environment config (Mongo URI, Port, etc.)
-
----
-
 ## Getting Started
 
 ### 1. Clone the Repo
