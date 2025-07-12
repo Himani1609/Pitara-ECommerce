@@ -43,16 +43,23 @@
 ## Project Structure
 
 Pitara-ECommerce/
-├── client/ # React frontend
-│ ├── pages/ # User & Admin pages
-│ ├── styles/ # Component-level CSS
-│ └── ...
-├── server/ # Express backend
-│ ├── models/ # Mongoose schemas
-│ ├── routes/ # REST API endpoints
-│ ├── controllers/ # Business logic
-│ └── uploads/ # Uploaded images
-└── .env
+│
+├── client/                     # React frontend
+│   ├── pages/                  # All page components (User + Admin)
+│   ├── components/             # Reusable UI components
+│   ├── styles/                 # CSS modules or global styles
+│   ├── assets/                 # Static assets (images/icons)
+│   └── main.jsx                # App entry point
+│
+├── server/                     # Node.js + Express backend
+│   ├── models/                 # Mongoose schemas for User, Product, Category, Admin, etc.
+│   ├── routes/                 # REST API routes for products, users, auth, etc.
+│   ├── controllers/            # Request logic for each route
+│   ├── middleware/             # Middleware (e.g., image upload, auth)
+│   ├── uploads/                # Uploaded product/category images
+│   └── server.js               # Entry point for Express server
+│
+└── .env                        # Environment config (Mongo URI, Port, etc.)
 
 ---
 
