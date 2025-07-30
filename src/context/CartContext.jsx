@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
@@ -16,7 +16,7 @@ export const CartProvider = ({ children }) => {
   const fetchCart = async (userId) => {
     if (!userId) return;
     try {
-      const res = await axios.get(`http://localhost:5000/api/cart/${userId}`);
+      const res = await API.get(`cart/${userId}`);
       setCartItems(res.data?.items || []);
     } catch (err) {
       console.error('Fetch cart failed:', err);
@@ -30,7 +30,7 @@ export const CartProvider = ({ children }) => {
       return;
     }
     try {
-      await axios.post('http://localhost:5000/api/cart/add', {
+      await API.post('cart/add', {
         userId,
         productId: product._id,
         quantity,
@@ -45,7 +45,7 @@ export const CartProvider = ({ children }) => {
     const userId = user?.user?._id;
     if (!userId) return;
     try {
-      await axios.put('http://localhost:5000/api/cart/update', {
+      await API.put('cart/update', {
         userId,
         productId,
         quantity,
@@ -60,7 +60,7 @@ export const CartProvider = ({ children }) => {
     const userId = user?.user?._id;
     if (!userId) return;
     try {
-      await axios.delete('http://localhost:5000/api/cart/remove', {
+      await API.delete('cart/remove', {
         data: { userId, productId },
       });
       fetchCart(userId);
@@ -84,7 +84,7 @@ export const CartProvider = ({ children }) => {
       localStorage.removeItem('cart');
       
       if (user?.user?._id) {
-        await axios.delete(`http://localhost:5000/api/cart/clear/${user.user._id}`);
+        await API.delete(`cart/clear/${user.user._id}`);
       }
     } catch (err) {
       console.error('Failed to clear server cart:', err);
