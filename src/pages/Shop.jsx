@@ -50,7 +50,9 @@ const Shop = () => {
             {isAuthenticated && (
               <button
                 className="btn-add-cart mt-2"
-                onClick={() => addToCart(prod, 1)}
+                onClick={() => {
+                addToCart(prod, quantity);
+                alert(`Added ${quantity} ${prod.name}(s) to cart`);}}
               >
                 Add to Cart
               </button>
