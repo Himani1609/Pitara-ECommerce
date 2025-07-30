@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API from '../services/api';
+import API from '../../services/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/pages/AdminEditProduct.css';
 import productImages from '../../productImages';

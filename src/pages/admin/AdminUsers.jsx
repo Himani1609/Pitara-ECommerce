@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../../services/api';
 import '../../styles/pages/AdminUsers.css';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
@@ -11,7 +11,7 @@ const AdminUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/users');
+      const res = await API.get('users');
       setUsers(res.data);
     } catch (err) {
       console.error('Failed to load users:', err);
@@ -21,7 +21,7 @@ const AdminUsers = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this user?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/users/${id}`);
+      await API.delete(`users/${id}`);
       fetchUsers();
     } catch (err) {
       console.error('Delete failed:', err);

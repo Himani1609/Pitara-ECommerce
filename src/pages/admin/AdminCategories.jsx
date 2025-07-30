@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API from '../services/api';
-
+import API from '../../services/api';
 import '../../styles/pages/AdminCategories.css';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';

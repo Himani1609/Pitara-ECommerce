@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
 import '../../styles/pages/AdminAddAdmin.css';
-import API from '../services/api';
-
+import API from '../../services/api';
 
 const AdminAddAdmin = () => {
   const navigate = useNavigate();
