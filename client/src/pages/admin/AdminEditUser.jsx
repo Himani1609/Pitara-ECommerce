@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/pages/AdminEditUser.css';
+import AdminLayout from '../admin/AdminLayout';
+
 
 const AdminEditUser = () => {
   const { id } = useParams();
@@ -53,6 +55,7 @@ const AdminEditUser = () => {
   if (loading) return <p>Loading...</p>;
 
   return (
+    <AdminLayout>
     <div className="edit-user-wrapper">
       <div className="edit-user-form">
         <h2>Edit User</h2>
@@ -84,6 +87,8 @@ const AdminEditUser = () => {
         </form>
       </div>
     </div>
+    </AdminLayout>
+
   );
 };
 

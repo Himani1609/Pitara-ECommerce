@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../styles/pages/AdminAdmins.css';
 import { useNavigate } from 'react-router-dom';
+import AdminLayout from '../admin/AdminLayout';
+
 
 const AdminAdmins = () => {
   const [admins, setAdmins] = useState([]);
@@ -31,6 +33,7 @@ const AdminAdmins = () => {
   }, []);
 
   return (
+    <AdminLayout>
     <div className="admin-admins">
       <div className="top-bar">
         <button className="add-btn" onClick={() => navigate('/admin/admins/add')}>
@@ -66,6 +69,8 @@ const AdminAdmins = () => {
         </tbody>
       </table>
     </div>
+    </AdminLayout>
+
   );
 };
 

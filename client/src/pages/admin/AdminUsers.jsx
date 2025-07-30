@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../styles/pages/AdminUsers.css';
 import { useNavigate } from 'react-router-dom';
+import AdminLayout from '../admin/AdminLayout';
+
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
@@ -31,6 +33,7 @@ const AdminUsers = () => {
   }, []);
 
   return (
+    <AdminLayout>
     <div className="admin-users">
       <div className='top-bar'><br /></div>
       <table className="user-table">
@@ -59,6 +62,8 @@ const AdminUsers = () => {
         </tbody>
       </table>
     </div>
+    </AdminLayout>
+
   );
 };
 

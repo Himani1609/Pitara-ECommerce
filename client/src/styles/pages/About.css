@@ -1,0 +1,26 @@
+.about-page {
+  padding: 3rem 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  color: #264653;
+}
+
+.about-container {
+  max-width: 800px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 7px;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.about-container h2 {
+  font-size: 2rem;
+  color: #2A9D8F;
+  margin-bottom: 1rem;
+}
+
+.about-container p {
+  line-height: 1.8;
+  font-size: 1.05rem;
+  margin-bottom: 1.2rem;
+}

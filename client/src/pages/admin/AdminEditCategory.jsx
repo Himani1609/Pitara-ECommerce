@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../styles/pages/AdminEditCategory.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import AdminLayout from '../admin/AdminLayout';
+
 
 const AdminEditCategory = () => {
   const { id } = useParams();
@@ -43,7 +45,8 @@ const AdminEditCategory = () => {
   };
 
   return (
-    <div className='edit-category-wrapper'>
+    <AdminLayout>
+          <div className='edit-category-wrapper'>
     <div className="edit-category-form">
       <h2>Edit Category</h2>
       <form onSubmit={handleSubmit}>
@@ -55,6 +58,8 @@ const AdminEditCategory = () => {
       </form>
     </div>
     </div>
+    </AdminLayout>
+
   );
 };
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../../styles/pages/AdminAddCategory.css';
 import { useNavigate } from 'react-router-dom';
+import AdminLayout from '../admin/AdminLayout';
+
 
 const AdminAddCategory = () => {
   const [form, setForm] = useState({ name: '', description: '' });
@@ -37,7 +39,8 @@ const AdminAddCategory = () => {
   };
 
   return (
-    <div className="add-category-wrapper">
+    <AdminLayout>
+          <div className="add-category-wrapper">
     <div className="add-category-form">
       <h2>Add Category</h2>
       <form onSubmit={handleSubmit}>
@@ -49,6 +52,8 @@ const AdminAddCategory = () => {
       </form>
     </div>
     </div>
+    </AdminLayout>
+
   );
 };
 

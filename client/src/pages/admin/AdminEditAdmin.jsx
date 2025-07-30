@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/pages/AdminEditAdmin.css';
 
+
 const AdminEditAdmin = () => {
   const { id } = useParams();
   const navigate = useNavigate();

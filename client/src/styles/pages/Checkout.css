@@ -1,43 +1,51 @@
-
 .checkout-page {
   max-width: 900px;
   margin: 40px auto;
   padding: 30px;
   background: #ffffff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
   font-family: 'Segoe UI', sans-serif;
+  color: #264653;
 }
+
 
 .checkout-page h2 {
-  font-size: 28px;
+  font-size: 2rem;
   margin-bottom: 20px;
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid #E9C46A; 
   padding-bottom: 10px;
+  color: #2A9D8F;
 }
 
-.address-section, .cart-summary {
+
+.address-section,
+.cart-summary {
   margin-bottom: 40px;
 }
 
-.address-section h4, .cart-summary h4 {
-  font-size: 20px;
+
+.address-section h4,
+.cart-summary h4 {
+  font-size: 1.25rem;
   margin-bottom: 15px;
-  color: #444;
+  color: #264653;
 }
 
 .address-list {
-  border: 1px solid #ddd;
+  border: 2px solid #E0FBFC;
   padding: 15px;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-bottom: 15px;
+  background-color: #F9FCFC;
 }
 
 .address-list label {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 16px;
+  font-size: 1rem;
+  color: #264653;
 }
 
 .address-buttons {
@@ -47,52 +55,92 @@
 }
 
 .address-buttons button {
-  padding: 5px 10px;
+  padding: 6px 14px;
   font-size: 14px;
   cursor: pointer;
   border: none;
   border-radius: 6px;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
 }
 
-.address-buttons button.edit {
-  background-color: #f0f0f0;
+/* Edit button */
+.address-buttons .edit {
+  background-color: #E9C46A;
+  color: #264653;
 }
 
-.address-buttons button.delete {
-  background-color: #ff4d4d;
+.address-buttons .edit:hover {
+  background-color: #F4A261;
   color: white;
+}
+
+.address-buttons .delete {
+  background-color: #E76F51;
+  color: white;
+}
+
+.address-buttons .delete:hover {
+  background-color: #c0483f;
+}
+
+.cart-summary {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
 }
 
 .cart-summary-item {
   display: flex;
   justify-content: space-between;
-  padding: 6px 0;
+  width: 100%;
+  max-width: 300px;
+  font-size: 1rem;
+  color: #264653;
 }
 
 .cart-summary-item.total {
   font-weight: bold;
-  font-size: 18px;
-  border-top: 1px solid #ddd;
+  font-size: 1.2rem;
+  border-top: 2px solid #ccc;
   margin-top: 10px;
   padding-top: 10px;
+  color: #2A9D8F;
 }
 
-.add-address-btn, .place-order-btn {
+
+.add-address-btn,
+.place-order-btn {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 12px 22px;
   font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   margin-top: 10px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
+
 .add-address-btn {
-  background-color: #ddd;
-  color: #333;
+  background-color: #F4A261;
+  color: white;
+}
+
+.add-address-btn:hover {
+  background-color: #e0863b;
 }
 
 .place-order-btn {
-  background-color: teal;
+  background-color: #2A9D8F;
   color: white;
+}
+
+.place-order-btn:hover {
+  background-color: #178a85;
 }

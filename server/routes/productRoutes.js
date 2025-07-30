@@ -13,7 +13,7 @@ const {
 
 router.post('/',upload.array('images', 5),  createProduct);
 router.get('/featured', async (req, res) => {
-  const products = await Product.find({ isFeatured: true }).limit(6);
+  const products = await Product.find({ isFeatured: true }).limit(5);
   res.json(products);
 });
 router.get('/', getAllProducts);

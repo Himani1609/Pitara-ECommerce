@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../../styles/pages/AdminCategories.css';
 import { useNavigate } from 'react-router-dom';
+import AdminLayout from '../admin/AdminLayout';
+
 
 import category1 from '../../assets/images/category/homedecor.jpg';
 import category2 from '../../assets/images/category/stationery.jpg';
@@ -53,6 +55,7 @@ const AdminCategories = () => {
 
 
   return (
+    <AdminLayout>
     <div className="admin-categories">
       <div className="top-bar">
         <button className="add-btn" onClick={() => navigate('/admin/categories/add')}>
@@ -91,6 +94,8 @@ const AdminCategories = () => {
         </tbody>
       </table>
     </div>
+    </AdminLayout>
+
   );
 };
 

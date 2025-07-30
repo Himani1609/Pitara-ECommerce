@@ -16,7 +16,8 @@ const OrderConfirmation = () => {
   }
 
   const address = order.addressId;
-  const items = order.items || [];
+  const items = order.orderItems || [];
+  console.log("Order Items:", items);
 
   return (
     <div className="order-confirmation">

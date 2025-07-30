@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/pages/AdminEditProduct.css';
 import productImages from '../../productImages';
+import AdminLayout from '../admin/AdminLayout';
+
 
 
 const AdminEditProduct = () => {
@@ -80,7 +82,8 @@ const handleImageChange = (e) => {
 
 
   return (
-    <div className="edit-product-wrapper">
+    <AdminLayout>
+          <div className="edit-product-wrapper">
       <div className="edit-product-page">
         <h2>Edit Product</h2>
         <form onSubmit={handleSubmit} className="edit-product-form">
@@ -102,6 +105,8 @@ const handleImageChange = (e) => {
         </form>
       </div>
     </div>
+    </AdminLayout>
+
   );
 };
 

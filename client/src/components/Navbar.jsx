@@ -37,7 +37,9 @@ const Navbar = () => {
           <div className="d-flex nav-icons align-items-center">
             {isAuthenticated ? (
               <>
-                <Link className="nav-link me-3" to="/cart">Cart</Link>
+              <div className="nav-item">
+                <Link className="nav-link" to="/cart">Cart</Link>
+              </div>
                 <span className="nav-link fw-bold text-dark">{user.fullName}</span>
                 <button onClick={handleLogout} className="btn btn-sm btn-outline-danger ms-2">Logout</button>
               </>

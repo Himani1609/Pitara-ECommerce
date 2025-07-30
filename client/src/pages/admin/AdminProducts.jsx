@@ -5,6 +5,8 @@ import productImages from '../../productImages';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useNavigate } from 'react-router-dom';
+import AdminLayout from '../admin/AdminLayout';
+
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -34,6 +36,7 @@ const AdminProducts = () => {
   };
 
   return (
+    <AdminLayout>
     <div className="admin-products">
       <div className="top-bar">
         <button
@@ -47,7 +50,7 @@ const AdminProducts = () => {
       <table className="product-table">
         <thead>
           <tr>
-            <th>ID</th>
+            <th>#</th>
             <th>Image</th>
             <th>Name</th>
             <th>Description</th>
@@ -106,6 +109,8 @@ const AdminProducts = () => {
         </tbody>
       </table>
     </div>
+    </AdminLayout>
+
   );
 };
 

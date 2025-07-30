@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import AdminLayout from '../admin/AdminLayout';
 import '../../styles/pages/AdminAddAdmin.css';
 
 const AdminAddAdmin = () => {
@@ -30,6 +31,7 @@ const AdminAddAdmin = () => {
   };
 
   return (
+    <AdminLayout>
     <div className="add-admin-wrapper">
       <div className="add-admin-form">
         <h2>Add New Admin</h2>
@@ -72,6 +74,7 @@ const AdminAddAdmin = () => {
         </form>
       </div>
     </div>
+    </AdminLayout>
   );
 };
 

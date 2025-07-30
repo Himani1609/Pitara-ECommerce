@@ -1,7 +1,14 @@
+.navbar {
+  background-color: #FAFAFA;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
 .navbar-brand {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #2B267A !important;
+  color: #264653 !important; 
   letter-spacing: 1px;
 }
 
@@ -9,47 +16,39 @@
   border: none;
 }
 
-.navbar-nav .nav-link {
+.navbar-nav .nav-link,.nav-icons .nav-link {
   font-weight: 500;
-  color: #2B267A !important; 
-  margin: 0 10px;
+  font-size: 1.1rem;
+  color: #2A9D8F !important; 
+  margin: 0 12px;
+  transition: color 0.2s ease;
 }
 
 .navbar-nav .nav-link:hover {
-  color: #FF9F1C !important; 
-}
-
-
-.navbar {
-  background-color: #FAFAFA;
-  padding-top: 0.8rem;
-  padding-bottom: 0.8rem;
+  color: #F4A261 !important; 
 }
 
 .nav-icons {
   display: flex;
   align-items: center;
-  gap: 1rem;
-}
-
-.nav-icons .nav-link {
-  font-size: 1.3rem;
-  color: #00A08C !important; 
-  margin-right: 15px;
 }
 
 .nav-icons .nav-link:hover {
-  color: #FFD23F !important; 
+  color: #E9C46A !important;
 }
 
-.nav-icons .btn {
-  border: 1px solid #FFD23F;
-  color: #FFD23F;
-  font-weight: 500;
-  padding: 5px 12px;
+.nav-icons .btn{
+  background-color: transparent;
+  border: 2px solid #F4A261;
+  color: #F4A261;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.nav-icons .btn:hover {
-  background-color: #FFD23F;
-  color: #2B267A;
+.nav-icons .btn:hover  {
+  background-color: #F4A261;
+  color: white;
 }

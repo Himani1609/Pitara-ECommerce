@@ -45,7 +45,14 @@ const Cart = () => {
       <h2>Your Cart</h2>
 
       {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <p style={{
+        height: '50vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#2A9D8F',
+        fontSize: '1.5rem'
+        }}>Your cart is empty.</p>
       ) : (
         <div className="cart-items">
           {cartItems.map(item => {

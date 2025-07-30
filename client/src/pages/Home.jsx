@@ -66,6 +66,7 @@ const Home = () => {
       <div className="product-grid">
         {featured.map(product => (
         <div key={product._id} className="product-card">
+            <Link to={`/product/${product._id}`} className="product-link">
             <Carousel showThumbs={false} showStatus={false} infiniteLoop>
               {product.images.map((imgName, idx) => (
                 <div key={idx}>
@@ -78,6 +79,7 @@ const Home = () => {
             </Carousel>
             <h4>{product.name}</h4>
             <p>${product.price}</p>
+            </Link>
           </div>
         ))}
 

@@ -30,7 +30,19 @@ const ProductDetail = () => {
     alert(`Added ${quantity} ${product.name}(s) to cart`);
   };
 
-  if (!product) return <p>Loading...</p>;
+  if (!product) return (
+  <div style={{
+    height: '50vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: '#2A9D8F',
+    fontSize: '1.5rem'
+  }}>
+    Loading...
+  </div>
+);
+
 
   return (
     <div className="product-detail">

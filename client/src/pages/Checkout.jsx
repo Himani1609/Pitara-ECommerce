@@ -102,10 +102,10 @@ const Checkout = () => {
 
       <div className="cart-summary">
         <h4>Cart Summary</h4>
-        <div className="cart-summary-item"><span>Total MRP:</span> <span>${subtotal.toFixed(2)}</span></div>
-        <div className="cart-summary-item"><span>Shipping:</span> <span>${shipping.toFixed(2)}</span></div>
-        <div className="cart-summary-item"><span>Taxes (13%):</span> <span>${tax.toFixed(2)}</span></div>
-        <div className="cart-summary-item total"><span>Total:</span> <span>${total}</span></div>
+        <div className="cart-summary-item"><span>Total MRP:  </span> <span>${subtotal.toFixed(2)}</span></div>
+        <div className="cart-summary-item"><span>Shipping:  </span> <span>${shipping.toFixed(2)}</span></div>
+        <div className="cart-summary-item"><span>Taxes (13%):  </span> <span>${tax.toFixed(2)}</span></div>
+        <div className="cart-summary-item total"><span>Total:  </span> <span>${total}</span></div>
       </div>
 
       <button className="place-order-btn" onClick={handlePlaceOrder}>Place Order</button>
