@@ -58,8 +58,6 @@ const Home = () => {
         </div>
       </section>
 
-
-
       {/* Featured Products Placeholder */}
       <section className="featured-section">
       <h2>Featured Products</h2>
