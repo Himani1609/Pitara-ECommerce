@@ -15,7 +15,7 @@ const AdminProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await API.get('api/products');
+      const res = await API.get('products');
       setProducts(res.data);
     } catch (err) {
       console.error('Failed to fetch products:', err);
