@@ -4,7 +4,6 @@ import '../../styles/pages/AdminCategories.css';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
 
-
 import category1 from '../../assets/images/category/homedecor.jpg';
 import category2 from '../../assets/images/category/stationery.jpg';
 import category3 from '../../assets/images/category/artifacts.jpg';
@@ -20,6 +19,8 @@ const categoryImages = [
 const AdminCategories = () => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+
+  const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
 
   const fetchCategories = async () => {
     try {
@@ -47,7 +48,8 @@ const AdminCategories = () => {
   const getCategoryImage = (cat) => {
     const localMatch = categoryImages.find((item) => item.name === cat.name)?.image;
     if (!localMatch && cat.image && !cat.image.startsWith('http')) {
-      return `/uploads/${cat.image}`;
+      return `${UPLOADS_BASE}${cat.image}`;
+
     }
 
     return localMatch || '/placeholder.jpg';
