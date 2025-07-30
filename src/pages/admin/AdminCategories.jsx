@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
+
 import '../../styles/pages/AdminCategories.css';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
@@ -23,7 +24,7 @@ const AdminCategories = () => {
 
   const fetchCategories = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/categories');
+      const res = await API.get('categories');
       setCategories(res.data);
     } catch (err) {
       console.error('Failed to load categories:', err);
@@ -33,7 +34,7 @@ const AdminCategories = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this category?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/categories/${id}`);
+      await API.delete(`categories/${id}`);
       fetchCategories();
     } catch (err) {
       console.error('Delete failed:', err);

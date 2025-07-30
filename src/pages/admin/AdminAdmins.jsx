@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import '../../styles/pages/AdminAdmins.css';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
@@ -11,7 +11,7 @@ const AdminAdmins = () => {
 
   const fetchAdmins = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admins');
+      const res = await API.get('admins');
       setAdmins(res.data);
     } catch (err) {
       console.error('Failed to load admins:', err);
@@ -21,7 +21,7 @@ const AdminAdmins = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this admin?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admins/${id}`);
+      await API.delete(`admins/${id}`);
       fetchAdmins();
     } catch (err) {
       console.error('Delete failed:', err);

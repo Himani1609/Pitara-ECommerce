@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/pages/AdminEditUser.css';
 import AdminLayout from '../admin/AdminLayout';
@@ -18,7 +18,7 @@ const AdminEditUser = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/users`)
+    API.get(`users`)
       .then(res => {
         const user = res.data.find(u => u._id === id);
         if (user) {
@@ -43,7 +43,7 @@ const AdminEditUser = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/users/${id}`, form);
+      await API.put(`users/${id}`, form);
       alert('User updated!');
       navigate('/admin/users');
     } catch (err) {

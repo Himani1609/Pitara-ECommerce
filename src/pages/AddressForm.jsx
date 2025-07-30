@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import '../styles/pages/AddressForm.css';
+import API from '../services/api';
+
 
 const AddressForm = ({ userId, onSuccess, existing = null }) => {
   const [form, setForm] = useState({
@@ -35,9 +36,9 @@ const AddressForm = ({ userId, onSuccess, existing = null }) => {
   try {
     const payload = { ...form };
     if (existing?._id) {
-      await axios.put(`http://localhost:5000/api/addresses/${existing._id}`, payload); // 🚫 no userId
+      await API.put(`addresses/${existing._id}`, payload);
     } else {
-      await axios.post('http://localhost:5000/api/addresses', { userId, ...payload });
+      await API.post('addresses', { userId, ...payload });
     }
 
     alert(`Address ${existing ? 'updated' : 'added'}!`);

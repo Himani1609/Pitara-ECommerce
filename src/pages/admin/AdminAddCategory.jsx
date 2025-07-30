@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import '../../styles/pages/AdminAddCategory.css';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
@@ -29,7 +29,7 @@ const AdminAddCategory = () => {
     if (image) data.append('image', image);
 
     try {
-      await axios.post('http://localhost:5000/api/categories', data);
+      await API.post('categories', data);
       alert('Category added!');
       navigate('/admin/categories');
     } catch (err) {

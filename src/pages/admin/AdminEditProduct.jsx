@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/pages/AdminEditProduct.css';
 import productImages from '../../productImages';
 import AdminLayout from '../admin/AdminLayout';
 
-
+const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
 
 const AdminEditProduct = () => {
   const { id } = useParams();
@@ -22,7 +22,7 @@ const AdminEditProduct = () => {
   const [newImages, setNewImages] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/products/${id}`)
+    API.get(`products/${id}`)
       .then(res => {
         const prod = res.data;
         setForm({
@@ -32,9 +32,10 @@ const AdminEditProduct = () => {
           stock: prod.stock,
           images: prod.images
         });
-        setPreviewImages(prod.images.map(img => 
-          productImages[img] || `http://localhost:5000/uploads/${img}`
+        setPreviewImages(prod.images.map(img =>
+          productImages[img] || `${UPLOADS_BASE}${img}`
         ));
+
       })
       .catch(err => console.error('Fetch error:', err));
   }, [id]);
@@ -68,7 +69,7 @@ const handleImageChange = (e) => {
   });
 
   try {
-    await axios.put(`http://localhost:5000/api/products/${id}`, data, {
+    await API.put(`products/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
     alert('Product updated');

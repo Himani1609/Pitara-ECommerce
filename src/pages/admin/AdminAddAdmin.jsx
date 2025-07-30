@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
 import '../../styles/pages/AdminAddAdmin.css';
+import API from '../services/api';
+
 
 const AdminAddAdmin = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const AdminAddAdmin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/admins', form);
+      await API.post('admins', form);
       alert('Admin added successfully!');
       navigate('/admin/admins');
     } catch (err) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import AddressForm from './AddressForm';
@@ -17,7 +17,7 @@ const Checkout = () => {
   const [editingAddress, setEditingAddress] = useState(null);
 
   const fetchAddresses = () => {
-    axios.get(`http://localhost:5000/api/addresses/${user.user._id}`)
+    API.get(`addresses/${user.user._id}`)
       .then(res => setAddresses(res.data))
       .catch(err => console.error('Failed to load addresses', err));
   };
@@ -36,13 +36,13 @@ const Checkout = () => {
   const tax = subtotal * 0.13;
   const totalAmount = subtotal + shipping + tax;
 
-  axios.post('http://localhost:5000/api/orders', {
+  API.post('orders', {
     userId: user.user._id,
     addressId: selectedAddressId,
     totalAmount,
     items: cartItems,
   }).then(async res => {
-    await axios.delete(`http://localhost:5000/api/cart/clear/${user.user._id}`);
+    await API.delete(`cart/clear/${user.user._id}`);
     clearCart(); 
     navigate('/order-confirmation', { state: { order: res.data } });
   }).catch(err => {
@@ -52,7 +52,7 @@ const Checkout = () => {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/api/addresses/${id}`);
+    await API.delete(`addresses/${id}`);
     fetchAddresses();
   };
 

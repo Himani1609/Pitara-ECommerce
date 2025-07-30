@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/pages/Home.css';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import API from '../services/api';
 import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -25,7 +25,7 @@ const Home = () => {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/products/featured');
+        const res = await API.get('products/featured');
         setFeatured(res.data);
       } catch (err) {
         console.error('Failed to load featured products', err);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
 import '../../styles/pages/AdminAddProduct.css';
@@ -24,13 +24,18 @@ const AdminAddProduct = () => {
     setUploading(true);
 
     try {
+      const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
+
       for (const file of files) {
-        previews.push(URL.createObjectURL(file));
         const data = new FormData();
         data.append('image', file);
-        const res = await axios.post('http://localhost:5000/api/upload', data);
-        uploadedFileNames.push(res.data.filename);
+        const res = await API.post('upload', data);
+        const filename = res.data.filename;
+
+        uploadedFileNames.push(filename);
+        previews.push(`${UPLOADS_BASE}${filename}`);
       }
+
 
       setForm(prev => ({ ...prev, images: [...prev.images, ...uploadedFileNames] }));
       setPreviewImages(prev => [...prev, ...previews]);
@@ -44,7 +49,7 @@ const AdminAddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/products', form);
+      await API.post('products', form);
       alert('Product added!');
       navigate('/admin/products');
     } catch (err) {

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import axios from 'axios';
 import '../styles/pages/Shop.css';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import productImages from '../productImages';
+import API from '../services/api';
+
 
 const Shop = () => {
   const [searchParams] = useSearchParams();
@@ -16,7 +17,7 @@ const Shop = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/products')
+    API.get('products')
       .then(res => {
         const allProducts = res.data;
         const filtered = categoryQuery

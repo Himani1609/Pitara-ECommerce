@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import '../../styles/pages/AdminEditCategory.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
@@ -13,7 +13,7 @@ const AdminEditCategory = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/categories/${id}`).then(res => {
+    API.get(`categories/${id}`).then(res => {
       setForm({ name: res.data.name, description: res.data.description });
       setPreview(`/uploads/${res.data.image}`);
     });
@@ -37,7 +37,7 @@ const AdminEditCategory = () => {
     if (image) data.append('image', image);
 
     try {
-      await axios.put(`http://localhost:5000/api/categories/${id}`, data);
+      await API.put(`categories/${id}`, data);
       navigate('/admin/categories');
     } catch (err) {
       console.error('Update failed:', err);

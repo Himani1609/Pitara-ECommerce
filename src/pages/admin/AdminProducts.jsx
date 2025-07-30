@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import '../../styles/pages/AdminProducts.css';
 import productImages from '../../productImages';
 import { Carousel } from 'react-responsive-carousel';
@@ -7,6 +7,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from '../admin/AdminLayout';
 
+const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
 
 const AdminProducts = () => {
   const [products, setProducts] = useState([]);
@@ -14,7 +15,7 @@ const AdminProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/products');
+      const res = await API.get('api/products');
       setProducts(res.data);
     } catch (err) {
       console.error('Failed to fetch products:', err);
@@ -28,7 +29,7 @@ const AdminProducts = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this product?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/products/${id}`);
+      await API.delete(`products/${id}`);
       fetchProducts();
     } catch (err) {
       console.error('Delete failed:', err);
@@ -70,8 +71,7 @@ const AdminProducts = () => {
                       const isPredefined = productImages[imgName];
                       const imageSrc = isPredefined
                         ? productImages[imgName]
-                        : `http://localhost:5000/uploads/${imgName}`;
-
+                        : `${UPLOADS_BASE}${imgName}`;
                       return (
                         <div key={idx}>
                           <img

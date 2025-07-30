@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/pages/AdminEditAdmin.css';
 
@@ -17,7 +17,7 @@ const AdminEditAdmin = () => {
 
   useEffect(() => {
     if (id) {
-      axios.get(`http://localhost:5000/api/admins/${id}`)
+      API.get(`admins/${id}`)
         .then(res => {
           const { firstName, lastName, email, role } = res.data;
           setForm({ firstName, lastName, email, role, password: '' });
@@ -34,10 +34,10 @@ const AdminEditAdmin = () => {
     e.preventDefault();
     try {
       if (id) {
-        await axios.put(`http://localhost:5000/api/admins/${id}`, form);
+        await API.put(`admins/${id}`, form);
         alert('Admin updated');
       } else {
-        await axios.post('http://localhost:5000/api/admins', form);
+        await API.post('admins', form);
         alert('Admin added');
       }
       navigate('/admin/admins');

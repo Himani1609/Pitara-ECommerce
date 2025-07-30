@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../styles/pages/Auth.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import API from '../services/api';
 
 const Login = () => {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -17,13 +18,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/users/login', form);
+      const res = await API.post('users/login', form);
       const userData = res.data;
       login(userData);
 
       setMessage('Login successful!');
-
-      // 🔁 Redirect based on role
+      
       if (userData.isAdmin) {
         navigate('/admin/dashboard');
       } else {
