@@ -17,9 +17,9 @@ const AdminEditCategory = () => {
     API.get(`categories/${id}`).then(res => {
       setForm({ name: res.data.name, description: res.data.description });
       if (res.data.image) {
-        setPreview(`${UPLOADS_BASE}${res.data.image}`);
+      setPreview(`${UPLOADS_BASE}${res.data.image}`);
       } else {
-        console.log("Fetched category data:", res.data);
+        console.log("Image is missing");
       }
 
     });
