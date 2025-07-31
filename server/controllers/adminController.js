@@ -70,3 +70,15 @@ exports.deleteAdmin = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+// Get single admin by ID
+exports.getAdminById = async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.params.id).select('-password');
+    if (!admin) return res.status(404).json({ message: 'Admin not found' });
+    res.status(200).json(admin);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

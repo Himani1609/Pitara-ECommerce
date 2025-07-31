@@ -6,13 +6,15 @@ const {
   registerAdmin,
   getAllAdmins,
   updateAdmin,
+  getAdminById,
   deleteAdmin
 } = require('../controllers/adminController');
 
 router.post('/register', registerAdmin);
 router.get('/', getAllAdmins);
 router.put('/:id', updateAdmin);      
-router.delete('/:id', deleteAdmin);    
+router.delete('/:id', deleteAdmin); 
+router.get('/:id', getAdminById);   
 
 router.post('/', async (req, res) => {
   try {
