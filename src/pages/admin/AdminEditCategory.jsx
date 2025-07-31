@@ -11,13 +11,15 @@ const AdminEditCategory = () => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState('');
   const navigate = useNavigate();
+  const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
 
   useEffect(() => {
     API.get(`categories/${id}`).then(res => {
       setForm({ name: res.data.name, description: res.data.description });
-      setPreview(`/uploads/${res.data.image}`);
+      setPreview(`${UPLOADS_BASE}${res.data.image}`);
     });
   }, [id]);
+
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
