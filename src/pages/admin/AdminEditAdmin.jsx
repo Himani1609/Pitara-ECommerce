@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import API from '../../services/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/pages/AdminEditAdmin.css';
+import AdminLayout from '../admin/AdminLayout';
 
 
 const AdminEditAdmin = () => {
@@ -48,7 +49,8 @@ const AdminEditAdmin = () => {
   };
 
   return (
-    <div className="edit-admin-wrapper">
+    <AdminLayout>
+      <div className="edit-admin-wrapper">
       <div className="edit-admin-form">
         <h2>{id ? 'Edit Admin' : 'Add Admin'}</h2>
         <form onSubmit={handleSubmit}>
@@ -64,6 +66,7 @@ const AdminEditAdmin = () => {
         </form>
       </div>
     </div>
+    </AdminLayout>
   );
 };
 

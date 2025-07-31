@@ -14,11 +14,14 @@ const AdminEditCategory = () => {
   const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
 
   useEffect(() => {
-    API.get(`categories/${id}`).then(res => {
-      setForm({ name: res.data.name, description: res.data.description });
+  API.get(`categories/${id}`).then(res => {
+    setForm({ name: res.data.name, description: res.data.description });
+    if (res.data.image) {
       setPreview(`${UPLOADS_BASE}${res.data.image}`);
-    });
-  }, [id]);
+    }
+  });
+}, [id]);
+
 
 
   const handleChange = (e) => {
