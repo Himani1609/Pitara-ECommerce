@@ -17,6 +17,7 @@ const AdminEditCategory = () => {
   API.get(`categories/${id}`).then(res => {
     setForm({ name: res.data.name, description: res.data.description });
     if (res.data.image) {
+      console.log("Fetched category data:", res.data);
       setPreview(`${UPLOADS_BASE}${res.data.image}`);
     }
   });
