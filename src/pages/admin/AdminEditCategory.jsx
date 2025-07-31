@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../services/api';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../../styles/pages/AdminEditCategory.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import categoryImages from '../../categoryImages';
 import AdminLayout from '../admin/AdminLayout';
 
+const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
 
 const AdminEditCategory = () => {
   const { id } = useParams();
@@ -11,17 +13,15 @@ const AdminEditCategory = () => {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState('');
   const navigate = useNavigate();
-  const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
 
   useEffect(() => {
     API.get(`categories/${id}`).then(res => {
       setForm({ name: res.data.name, description: res.data.description });
-      if (res.data.image) {
-      setPreview(`${UPLOADS_BASE}${res.data.image}`);
-      } else {
-        console.log("Image is missing");
-      }
 
+      const existingImage = res.data.image;
+      if (existingImage) {
+        setPreview(categoryImages[existingImage] || `${UPLOADS_BASE}${existingImage}`);
+      }
     });
   }, [id]);
 
@@ -52,20 +52,19 @@ const AdminEditCategory = () => {
 
   return (
     <AdminLayout>
-          <div className='edit-category-wrapper'>
-    <div className="edit-category-form">
-      <h2>Edit Category</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="name" value={form.name} onChange={handleChange} required />
-        <textarea name="description" value={form.description} onChange={handleChange} required />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-        {preview && <img src={preview} alt="Preview" className="preview-image" />}
-        <button type="submit">Update Category</button>
-      </form>
-    </div>
-    </div>
+      <div className='edit-category-wrapper'>
+        <div className="edit-category-form">
+          <h2>Edit Category</h2>
+          <form onSubmit={handleSubmit}>
+            <input type="text" name="name" value={form.name} onChange={handleChange} required />
+            <textarea name="description" value={form.description} onChange={handleChange} required />
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            {preview && <img src={preview} alt="Preview" className="preview-image" />}
+            <button type="submit">Update Category</button>
+          </form>
+        </div>
+      </div>
     </AdminLayout>
-
   );
 };
 
