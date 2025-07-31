@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import API from '../../services/api';
-import '../../styles/pages/AdminEditCategory.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import '../../styles/pages/AdminEditCategory.css';
 import AdminLayout from '../admin/AdminLayout';
+
+const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
 
 const AdminEditCategory = () => {
   const { id } = useParams();
-  const [form, setForm] = useState({ name: '', description: '' });
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState('');
   const navigate = useNavigate();
-  const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
+
+  const [form, setForm] = useState({ name: '', description: '' });
+  const [previewImage, setPreviewImage] = useState('');
+  const [newImage, setNewImage] = useState(null);
 
   useEffect(() => {
     API.get(`categories/${id}`)
@@ -19,39 +21,39 @@ const AdminEditCategory = () => {
         setForm({ name: category.name, description: category.description });
 
         if (category.image) {
-          console.log("Fetched category image:", category.image);
-          setPreview(`${UPLOADS_BASE}${category.image}`);
+          setPreviewImage(`${UPLOADS_BASE}${category.image}`);
         } else {
-          console.warn("No image found for this category.");
-          setPreview('/placeholder.jpg'); 
+          setPreviewImage('/placeholder.jpg');
         }
       })
       .catch(err => {
-        console.error('Failed to fetch category:', err);
+        console.error('Fetch category failed:', err);
       });
   }, [id]);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = e => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file);
-      setPreview(URL.createObjectURL(file)); 
+      setNewImage(file);
+      setPreviewImage(URL.createObjectURL(file));
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const data = new FormData();
     data.append('name', form.name);
     data.append('description', form.description);
-    if (image) data.append('image', image);
+    if (newImage) data.append('image', newImage);
 
     try {
-      await API.put(`categories/${id}`, data);
+      await API.put(`categories/${id}`, data, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
       alert('Category updated!');
       navigate('/admin/categories');
     } catch (err) {
@@ -71,27 +73,34 @@ const AdminEditCategory = () => {
               name="name"
               value={form.name}
               onChange={handleChange}
+              placeholder="Category Name"
               required
             />
             <textarea
               name="description"
               value={form.description}
               onChange={handleChange}
+              placeholder="Category Description"
               required
             />
+            <label>Upload New Image (optional)</label>
             <input
               type="file"
               accept="image/*"
               onChange={handleImageChange}
             />
-            {preview && (
-              <img
-                src={preview}
-                alt="Preview"
-                className="preview-image"
-                onError={(e) => { e.target.src = '/placeholder.jpg'; }}
-              />
-            )}
+
+            <div className="preview-gallery">
+              {previewImage && (
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  className="preview-img"
+                  onError={(e) => (e.target.src = '/placeholder.jpg')}
+                />
+              )}
+            </div>
+
             <button type="submit">Update Category</button>
           </form>
         </div>
