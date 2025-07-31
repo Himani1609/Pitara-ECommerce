@@ -5,8 +5,8 @@ const bcrypt = require('bcryptjs');
 const {
   registerAdmin,
   getAllAdmins,
-  updateAdmin,
   getAdminById,
+  updateAdmin,
   deleteAdmin
 } = require('../controllers/adminController');
 
