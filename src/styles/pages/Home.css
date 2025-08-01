@@ -132,3 +132,98 @@ h4 {
   font-size: 1rem;
   color: #264653;
 }
+
+/* Small Screens Fixes */
+.hero h1 {
+  font-size: 2rem;
+}
+.hero p {
+  font-size: 1rem;
+}
+.category-card {
+  width: 100%;
+  max-width: 320px;
+}
+
+/*  Tablet Screens */
+@media (min-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+  }
+
+  .category-grid {
+    gap: 30px;
+  }
+
+  .category-card {
+    width: 200px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .product-card {
+    padding: 1.2rem;
+  }
+}
+
+
+/* Desktop Screens */
+
+@media (min-width: 1024px) {
+  .hero {
+    padding: 100px 40px;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .hero p {
+    font-size: 1.25rem;
+  }
+
+  .category-grid {
+    gap: 40px;
+  }
+
+  .category-card {
+    width: 220px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .featured-section {
+    padding: 4rem 3rem;
+  }
+}
+
+
+/* iPhone-specific enhancements if needed */
+@media screen and (max-width: 425px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .btn-shop {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+
+  .category-card {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .product-card {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
