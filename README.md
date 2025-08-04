@@ -35,7 +35,7 @@
 | Frontend    | React.js, Axios, React Router, CSS Modules |
 | Backend     | Node.js, Express.js, Multer |
 | Database    | MongoDB (Mongoose ODM) |
-| Auth        | JWT, Bcrypt |
+| Auth        | Bcrypt |
 | Tools       | Vite, Postman, MongoDB Atlas |
 
 ---

@@ -108,3 +108,45 @@ exports.deleteOrder = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// Send email confirmation after placing an order
+const sendEmail = require('../utils/sendEmail');
+
+exports.placeOrder = async (req, res) => {
+  try {
+    // Your existing order creation logic
+    const newOrder = new Order({
+      user: req.user.id,
+      items: req.body.items,
+      shippingAddress: req.body.shippingAddress,
+      totalAmount: req.body.totalAmount,
+    });
+
+    const savedOrder = await newOrder.save();
+
+    const user = await User.findById(req.user.id);
+
+    const html = `
+      <h2>Hi ${user.firstName},</h2>
+      <p>Your order <strong>#${savedOrder._id}</strong> has been placed successfully.</p>
+      <h4>Items:</h4>
+      <ul>
+        ${req.body.items.map(item => `<li>${item.name} - ${item.quantity} x ₹${item.price}</li>`).join('')}
+      </ul>
+      <p><strong>Total:</strong> ₹${req.body.totalAmount}</p>
+      <p>We’ll notify you when your order is shipped.</p>
+      <br><p>Thanks,<br/>The Pitara Team</p>
+    `;
+
+    await sendEmail({
+      to: user.email,
+      subject: 'Your Pitara Order Confirmation',
+      html
+    });
+
+    res.status(201).json(savedOrder);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
