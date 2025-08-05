@@ -45,7 +45,7 @@ const sendEmail = require('./sendEmail');
 app.get('/test-email', async (req, res) => {
   try {
     await sendEmail({
-      to: 'info@himanibansal.com', 
+      to: 'himanibansal1691998@gmail.com', 
       subject: 'Test Email from Pitara',
       html: '<h2>This is a test email</h2><p>If you see this, Brevo works!</p>'
     });
