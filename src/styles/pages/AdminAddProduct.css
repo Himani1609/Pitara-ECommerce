@@ -31,13 +31,20 @@
 .admin-add-product form select {
   width: 100%;
   padding: 0.85rem 1rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
   font-size: 1rem;
   border-radius: 10px;
   border: 1px solid #ccc;
   background: #fdfdfd;
   transition: border-color 0.3s ease;
 }
+
+.admin-add-product form select {
+  background-color: #ffffff;
+  color: #333;
+  font-weight: 500;
+}
+
 
 .admin-add-product form input:focus,
 .admin-add-product form textarea:focus,
@@ -75,4 +82,22 @@
   border: 1px dashed #ccc;
   padding: 10px;
   margin-bottom: 1rem;
+}
+
+.admin-add-product label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #264653;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.admin-add-product input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #2A9D8F;
+  cursor: pointer;
 }
