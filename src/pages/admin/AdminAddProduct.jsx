@@ -6,6 +6,7 @@ import '../../styles/pages/AdminAddProduct.css';
 
 const AdminAddProduct = () => {
   const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: '',
     description: '',
@@ -14,8 +15,10 @@ const AdminAddProduct = () => {
     categoryId: '',
     isFeatured: false
   });
+
   const [images, setImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
+  const [uploading, setUploading] = useState(false);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -32,41 +35,40 @@ const AdminAddProduct = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const newValue = type === 'checkbox' ? checked : value;
-    setForm({ ...form, [name]: newValue });
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
   };
 
   const handleImageChange = async (e) => {
-  const files = Array.from(e.target.files);
-  setUploading(true);
+    const files = Array.from(e.target.files);
+    setUploading(true);
 
-  try {
-    const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
-    const newImages = [];
-    const previews = [];
+    try {
+      const uploadBase = import.meta.env.VITE_API_BASE + '/uploads/';
+      const uploadedImages = [];
+      const previews = [];
 
-    for (const file of files) {
-      const data = new FormData();
-      data.append('image', file); 
+      for (const file of files) {
+        const data = new FormData();
+        data.append('image', file);
+        const res = await API.post('upload', data);
+        const filename = res.data.filename;
 
-      const res = await API.post('upload', data);
-      const filename = res.data.filename;
+        uploadedImages.push(filename);
+        previews.push(`${uploadBase}${filename}`);
+      }
 
-      newImages.push(filename);
-      previews.push(`${UPLOADS_BASE}${filename}`);
+      setImages((prev) => [...prev, ...uploadedImages]);
+      setPreviewImages((prev) => [...prev, ...previews]);
+    } catch (err) {
+      console.error('Image upload error:', err);
+      alert('Upload failed. Please check the console.');
     }
 
-    setImages(prev => [...prev, ...newImages]);
-    setPreviewImages(prev => [...prev, ...previews]);
-
-  } catch (err) {
-    console.error('Image upload error:', err);
-    alert('Upload failed. Check console for details.');
-  }
-
-  setUploading(false);
-};
-
+    setUploading(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,17 +81,18 @@ const AdminAddProduct = () => {
     data.append('categoryId', form.categoryId);
     data.append('isFeatured', form.isFeatured);
 
-    images.forEach(file => data.append('images', file));
+    images.forEach((img) => data.append('images', img));
 
     try {
       await API.post('products', data);
-      alert('Product added!');
+      alert('Product added successfully!');
       navigate('/admin/products');
     } catch (err) {
       console.error('Product creation failed:', err);
       alert('Failed to add product');
     }
   };
+
 
   return (
     <AdminLayout>
