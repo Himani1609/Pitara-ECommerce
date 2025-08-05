@@ -19,7 +19,6 @@ const AdminAddProduct = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    // Load categories from API
     const fetchCategories = async () => {
       try {
         const res = await API.get('/categories');
@@ -37,12 +36,37 @@ const AdminAddProduct = () => {
     setForm({ ...form, [name]: newValue });
   };
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const previews = files.map(file => URL.createObjectURL(file));
-    setImages(prev => [...prev, ...files]);
+  const handleImageChange = async (e) => {
+  const files = Array.from(e.target.files);
+  setUploading(true);
+
+  try {
+    const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
+    const newImages = [];
+    const previews = [];
+
+    for (const file of files) {
+      const data = new FormData();
+      data.append('image', file); 
+
+      const res = await API.post('upload', data);
+      const filename = res.data.filename;
+
+      newImages.push(filename);
+      previews.push(`${UPLOADS_BASE}${filename}`);
+    }
+
+    setImages(prev => [...prev, ...newImages]);
     setPreviewImages(prev => [...prev, ...previews]);
-  };
+
+  } catch (err) {
+    console.error('Image upload error:', err);
+    alert('Upload failed. Check console for details.');
+  }
+
+  setUploading(false);
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -103,7 +127,6 @@ const AdminAddProduct = () => {
               onChange={handleChange}
               required
             />
-            <label>Category</label>
             <select
               name="categoryId"
               value={form.categoryId}

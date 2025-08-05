@@ -14,10 +14,19 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+const fs = require('fs');
+
+const uploadPath = '/uploads';
+
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
+
+app.use('/uploads', express.static(uploadPath));
+
 
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/upload', require('./routes/uploadRoutes'));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/users', require('./routes/authRoutes'));
 app.use('/api/admins', require('./routes/adminRoutes'));
 app.use('/api/addresses', require('./routes/addressRoutes'));
