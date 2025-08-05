@@ -13,7 +13,7 @@ const sendEmail = async ({ to, subject, html }) => {
     });
 
     const mailOptions = {
-      from: `"Pitara" <${process.env.EMAIL_USER}>`,
+      from: `"Pitara" <info@himanibansal.com`,
       to,
       subject,
       html,
