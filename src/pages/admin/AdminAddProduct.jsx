@@ -7,49 +7,35 @@ import '../../styles/pages/AdminAddProduct.css';
 const AdminAddProduct = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    name: '', description: '', price: '', stock: '', images: [],
+    name: '', description: '', price: '', stock: ''
   });
+  const [images, setImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
-  const [uploading, setUploading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    const previews = [];
-    const uploadedFileNames = [];
-    setUploading(true);
-
-    try {
-      const UPLOADS_BASE = import.meta.env.VITE_API_BASE + '/uploads/';
-
-      for (const file of files) {
-        const data = new FormData();
-        data.append('image', file);
-        const res = await API.post('upload', data);
-        const filename = res.data.filename;
-
-        uploadedFileNames.push(filename);
-        previews.push(`${UPLOADS_BASE}${filename}`);
-      }
-
-
-      setForm(prev => ({ ...prev, images: [...prev.images, ...uploadedFileNames] }));
-      setPreviewImages(prev => [...prev, ...previews]);
-    } catch (err) {
-      console.error('Image upload error:', err);
-    }
-
-    setUploading(false);
+    const previews = files.map(file => URL.createObjectURL(file));
+    setImages(prev => [...prev, ...files]);
+    setPreviewImages(prev => [...prev, ...previews]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const data = new FormData();
+    data.append('name', form.name);
+    data.append('description', form.description);
+    data.append('price', form.price);
+    data.append('stock', form.stock);
+    images.forEach(file => data.append('images', file)); 
+
     try {
-      await API.post('products', form);
+      await API.post('products', data);
       alert('Product added!');
       navigate('/admin/products');
     } catch (err) {
@@ -70,15 +56,12 @@ const AdminAddProduct = () => {
             <input name="stock" type="number" placeholder="Stock Quantity" value={form.stock} onChange={handleChange} required />
             <label>Product Images</label>
             <input type="file" multiple accept="image/*" onChange={handleImageChange} />
-            {uploading && <p>Uploading images...</p>}
             <div className="preview-gallery">
               {previewImages.map((img, idx) => (
                 <img key={idx} src={img} alt={`Preview ${idx + 1}`} className="preview-img" />
               ))}
             </div>
-            <button type="submit" disabled={uploading}>
-              {uploading ? 'Uploading...' : 'Submit'}
-            </button>
+            <button type="submit">Submit</button>
           </form>
         </div>
       </div>
