@@ -44,6 +44,8 @@ const sendEmail = require('./sendEmail');
 
 app.get('/test-email', async (req, res) => {
   try {
+    console.log("EMAIL_USER:", process.env.EMAIL_USER);
+    console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "Exists" : "Missing");
     await sendEmail({
       to: 'himanibansal1691998@gmail.com', 
       subject: 'Test Email from Pitara',
