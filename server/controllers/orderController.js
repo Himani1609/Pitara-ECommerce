@@ -1,40 +1,40 @@
 const Order = require('../models/Order');
 
 // Place order
-exports.placeOrder = async (req, res) => {
-  try {
-    const { userId, addressId, totalAmount, items } = req.body;
+// exports.placeOrder = async (req, res) => {
+//   try {
+//     const { userId, addressId, totalAmount, items } = req.body;
 
-    if (!userId || !addressId || !items || items.length === 0) {
-      return res.status(400).json({ message: 'Missing required fields' });
-    }
+//     if (!userId || !addressId || !items || items.length === 0) {
+//       return res.status(400).json({ message: 'Missing required fields' });
+//     }
 
-    const orderItems = items.map(item => ({
-      productId: item.productId._id || item.productId,
-      quantity: item.quantity,
-      price: item.productId?.price || item.price
-    }));
+//     const orderItems = items.map(item => ({
+//       productId: item.productId._id || item.productId,
+//       quantity: item.quantity,
+//       price: item.productId?.price || item.price
+//     }));
 
-    const order = new Order({
-      userId,
-      addressId,
-      totalAmount,
-      orderItems
-    });
+//     const order = new Order({
+//       userId,
+//       addressId,
+//       totalAmount,
+//       orderItems
+//     });
 
-    const savedOrder = await order.save();
+//     const savedOrder = await order.save();
 
-    const populatedOrder = await Order.findById(savedOrder._id)
-    .populate('addressId')
-    .populate('orderItems.productId');
+//     const populatedOrder = await Order.findById(savedOrder._id)
+//     .populate('addressId')
+//     .populate('orderItems.productId');
 
-  res.status(201).json(populatedOrder);
+//   res.status(201).json(populatedOrder);
 
-  } catch (err) {
-    console.error('Place order failed:', err);
-    res.status(500).json({ error: err.message });
-  }
-};
+//   } catch (err) {
+//     console.error('Place order failed:', err);
+//     res.status(500).json({ error: err.message });
+//   }
+// };
 
 // Get all orders for a user
 exports.getUserOrders = async (req, res) => {
@@ -110,31 +110,45 @@ exports.deleteOrder = async (req, res) => {
 };
 
 // Send email confirmation after placing an order
-const sendEmail = require('../utils/sendEmail');
+const User = require('../models/User');
+const sendEmail = require('../sendEmail'); 
 
 exports.placeOrder = async (req, res) => {
   try {
-    // Your existing order creation logic
-    const newOrder = new Order({
-      user: req.user.id,
-      items: req.body.items,
-      shippingAddress: req.body.shippingAddress,
-      totalAmount: req.body.totalAmount,
+    const { userId, addressId, totalAmount, items } = req.body;
+
+    if (!userId || !addressId || !items || items.length === 0) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    const orderItems = items.map(item => ({
+      productId: item.productId._id || item.productId,
+      quantity: item.quantity,
+      price: item.productId?.price || item.price
+    }));
+
+    const order = new Order({
+      userId,
+      addressId,
+      totalAmount,
+      orderItems
     });
 
-    const savedOrder = await newOrder.save();
+    const savedOrder = await order.save();
 
-    const user = await User.findById(req.user.id);
-
+    // Send email to user
+    const user = await User.findById(userId);
     const html = `
       <h2>Hi ${user.firstName},</h2>
       <p>Your order <strong>#${savedOrder._id}</strong> has been placed successfully.</p>
       <h4>Items:</h4>
       <ul>
-        ${req.body.items.map(item => `<li>${item.name} - ${item.quantity} x ₹${item.price}</li>`).join('')}
+        ${items.map(item => `
+          <li>${item.productId.name} – ${item.quantity} x ₹${item.productId.price}</li>
+        `).join('')}
       </ul>
-      <p><strong>Total:</strong> ₹${req.body.totalAmount}</p>
-      <p>We’ll notify you when your order is shipped.</p>
+      <p><strong>Total:</strong> ₹${totalAmount}</p>
+      <p>We'll notify you when your order is shipped.</p>
       <br><p>Thanks,<br/>The Pitara Team</p>
     `;
 
@@ -144,9 +158,14 @@ exports.placeOrder = async (req, res) => {
       html
     });
 
-    res.status(201).json(savedOrder);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: error.message });
+    // Populate order before sending back
+    const populatedOrder = await Order.findById(savedOrder._id)
+      .populate('addressId')
+      .populate('orderItems.productId');
+
+    res.status(201).json(populatedOrder);
+  } catch (err) {
+    console.error('Place order failed:', err);
+    res.status(500).json({ error: err.message });
   }
 };
